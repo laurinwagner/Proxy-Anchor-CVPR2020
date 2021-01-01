@@ -93,7 +93,9 @@ parser.add_argument('--l2-norm', default = 1, type = int,
 parser.add_argument('--remark', default = '',
     help = 'Any reamrk'
 )
-
+parser.add_argument('--rerank', default = 0,
+    help = 'use reranking in evaluation'
+)
 args = parser.parse_args()
 
 if args.gpu_id != -1:
@@ -258,7 +260,6 @@ print("Training for {} epochs.".format(args.nb_epochs))
 losses_list = []
 best_recall=[0]
 best_epoch = 0
-
 for epoch in range(0, args.nb_epochs):
     model.train()
     bn_freeze = args.bn_freeze
@@ -286,7 +287,7 @@ for epoch in range(0, args.nb_epochs):
 
     pbar = tqdm(enumerate(dl_tr))
 
-    for batch_idx, (x, y) in pbar:                         
+    for batch_idx, (x, y) in pbar:                        
         m = model(x.squeeze().cuda())
         loss = criterion(m, y.squeeze().cuda())
         
@@ -314,9 +315,9 @@ for epoch in range(0, args.nb_epochs):
         with torch.no_grad():
             print("**Evaluating...**")
             if args.dataset == 'Inshop':
-                Recalls = utils.evaluate_cos_Inshop(model, dl_query, dl_gallery)
+                Recalls = utils.evaluate_cos_Inshop(model, dl_query, dl_gallery,rerank=args.rerank)
             elif args.dataset != 'SOP':
-                Recalls = utils.evaluate_cos(model, dl_ev)
+                Recalls = utils.evaluate_cos(model, dl_ev,rerank=args.rerank)
             else:
                 Recalls = utils.evaluate_cos_SOP(model, dl_ev)
                 
