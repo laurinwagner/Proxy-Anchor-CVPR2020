@@ -1,7 +1,7 @@
 
-# Proxy Anchor Loss for Deep Metric Learning
+# Proxy Anchor Loss for Deep Metric Learning including reranking 
 
-Official PyTorch implementation of CVPR 2020 paper [**Proxy Anchor Loss for Deep Metric Learning**](https://arxiv.org/abs/2003.13911). 
+PyTorch implementation of CVPR 2020 paper [**Proxy Anchor Loss for Deep Metric Learning**](https://arxiv.org/abs/2003.13911) including the idea of [reranking in evaluation] (https://arxiv.org/abs/1701.08398). To use reranking set args.rerank=1 in train.py. Currently not supported for Stanford
 
 A standard embedding network trained with **Proxy-Anchor Loss** achieves SOTA performance and most quickly converges.
 
